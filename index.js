@@ -1,36 +1,16 @@
-var _ = require("underscore");
-var engine = require("./controllers/engine.js");
-var cloud = require("./controllers/cloud.js");
-var push = require("./controllers/push.js");
+var logic = require("./controllers/logic");
 
 exports.handler = function(event, context) {
-
-  engine.fetchToday({}, function(err, result) {
-    // TODO: Move this chain logic to engine
+  var hrstart = process.hrtime();
+  console.log('Environment '+process.env.AWS_ENVIRONMENT)
+  console.log('Context: '+JSON.stringify(context));
+  console.log('Initiating '+ (new Date()).toString());
+  logic.fetchToday(event, context, function(err) {
     if (err) {
-      console.log(err);
-      context.done();
-    } else {
-      console.log(result.title);
-      console.log("Fetched today result. Initiating cloud procedure ...");
-      cloud.uploadToS3('today.json', JSON.stringify(result), function(err, data) {
-
-          if (err) {
-              console.log("upload failed");
-          } else {
-              console.log("completed upload to s3");
-              var pushOptions = {
-                "title": result.title,
-                "devices": "ios",
-                "environment": "all_development"
-              }
-              console.log("Initiating push");
-              push.sendPushNow(pushOptions, function(err, pushResult) {
-                  context.done();
-              });
-          }
-      });
+      console.log("Finished with error: "+error);
     }
+    var hrend = process.hrtime(hrstart);
+    console.info("Execution time (hr): %ds %dms", hrend[0], hrend[1]/1000000);
+    context.done();
   });
-  console.log("working...");
 };

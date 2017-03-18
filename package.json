@@ -12,7 +12,11 @@
     "async": "^2.1.4",
     "aws-sdk": "^2.7.20",
     "feed-read": "0.0.1",
+    "json-query": "^2.2.0",
+    "minimist": "^1.2.0",
+    "prettyjson": "^1.2.1",
     "request": "^2.79.0",
+    "string": "^3.3.3",
     "underscore": "^1.8.3",
     "urban-airship-push": "^0.1.0"
   }

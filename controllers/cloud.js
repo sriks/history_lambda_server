@@ -1,12 +1,5 @@
 var AWS = require('aws-sdk');
-var accessKeyId =  process.env.AWS_ACCESS_KEY;
-var secretAccessKey = process.env.AWS_SECRET_KEY;
-
-AWS.config.update({
-    accessKeyId: accessKeyId,
-    secretAccessKey: secretAccessKey
-});
-var S3 = new AWS.S3();
+var S3 = new AWS.S3(); // keys are configured from AWS Lambda Role 
 
 var uploadToS3 = function(fileName, json, cb) {
   var params = {
