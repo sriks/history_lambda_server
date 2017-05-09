@@ -59,13 +59,14 @@ var fetchEntities = function(content, cb) {
   console.log('Fetching entities ...');
   entities.fetchEntities(content, function(err, entities) {
     if (err) {console.error(err);}
-    else {console.log("OK");}
+    else {console.log("OK"); console.log(JSON.stringify(entities))}
     cb(err, entities);
   });
 }
 
 var uploadToS3 = function(jsonToUpload, cb) {
   console.log('Uploading to S3 ...');
+  console.log(JSON.stringify(jsonToUpload));
   cloud.uploadToS3('today.json', JSON.stringify(jsonToUpload), function(err, data) {
     if (err) {console.error(err);}
     else {console.log("OK");}

@@ -28,7 +28,7 @@ var fetchEntitiesUsingDandelion = function(text, cb) {
   var unescaped = S(text).decodeHTMLEntities().s
   unescaped = S(unescaped).replaceAll('<p>', '').s;
   unescaped = S(unescaped).replaceAll('</p>', '').s;
-  text = S(unescaped).left(4096).s;
+  text = S(unescaped).left(2000).s;
 
   var request = require("request");
   var options = { method: 'GET',
@@ -58,11 +58,13 @@ var fetchEntitiesUsingDandelion = function(text, cb) {
 }
 
 var parseDandelionResponse = function(data) {
+  console.log('parseDandelionResponse json parse '+ JSON.stringify(data));
   var result =
-  jsonQuery('annotations[* confidence > 0.8]' , {
+  jsonQuery('annotations[* confidence > 0.2]' , {
     data: data
   }).value;
   if (!result) {
+    console.log("parseDandelionResponse invalid result to parse");
     return null;
   }
 
